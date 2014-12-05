@@ -1,4 +1,4 @@
-// TODO,bbb
+// TODO
 game.PlayerEntity = me.Entity.extend({
     init: function(x, y, settings) {
         this._super(me.Entity, 'init', [x, y, {
@@ -13,18 +13,26 @@ game.PlayerEntity = me.Entity.extend({
             }]);
 
         this.renderable.addAnimation("idle", [3]);
+        //create an animation called smallWalk using pictures of the image defines above(mario)
+        //sets the animation to run through pictures 8-13
+        //the last number says we switch between pictures every 80 milliseconds
         this.renderable.addAnimation("smallWalk", [8, 9, 10, 11, 12, 13], 80);
-        
+
         this.renderable.setCurrentAnimation("idle");
-        
+
+        //sets the speed we go on the x axis(first number) and y axis (second number)
         this.body.setVelocity(5, 20);
+
+        //sets the camera(viewport) to follow mario's position(pos) on both the x and y axis
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
     },
     update: function(delta) {
-        
-        
+        //checks if the right key is pressed and if it is , executes the following statementn
         if (me.input.isKeyPressed("right")) {
+        //sets the position of mario in the x axis by adding the x value from the setVelocity times the time
+        //me.timer tick uses the tii,e since last animation 
             this.body.vel.x += this.body.accel.x * me.timer.tick;
+            
         } else {
             this.body.vel.x = 0;
         }
@@ -37,7 +45,7 @@ game.PlayerEntity = me.Entity.extend({
         } else {
             this.renderable.setCurrentAnimation("idle");
         }
-         
+
         this.body.update(delta);
         me.collision.check(this, true, this.collideHandler.bind(this), true);
 
@@ -53,6 +61,8 @@ game.PlayerEntity = me.Entity.extend({
 game.LevelTrigger = me.Entity.extend({
     init: function(x, y, settings) {
         this._super(me.Entity, 'init', [x, y, settings]);
+        //sets this object so that it will collide only with objects of type no_objects, when dpn't wxist
+        //so really, makes it so this object will not collide with anything anymore
         this.body.onCollision = this.onCollision.bind(this);
         this.level = settings.level;
         this.xSpawn = settings.xSpawn;
