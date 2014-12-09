@@ -12,6 +12,7 @@ game.PlayerEntity = me.Entity.extend({
                 }
             }]);
 
+        //These are all the characters actions
         this.renderable.addAnimation("idle", [3]);
         this.renderable.addAnimation("bigIdle"[19]);
         //create an animation called smallWalk using pictures of the image defines above(mario)
