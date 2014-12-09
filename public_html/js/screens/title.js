@@ -2,7 +2,7 @@ game.TitleScreen = me.ScreenObject.extend({
     /**	
      *  action to perform on state change
      */
-    //Start Screen functions and their functions to start
+    //Start Screen functions and start function
     onResetEvent: function() {
         me.game.world.addChild(new me.Sprite(0, 0, me.loader.getImage('title-screen')), -10);
         me.input.bindKey(me.input.KEY.ENTER, "start");
@@ -19,7 +19,7 @@ game.TitleScreen = me.ScreenObject.extend({
             }
 
         })));
-        //What to function
+        //What to function first
         this.handler = me.event.subscribe(me.event.KEYDOWN, function(action, keyCode, edge) {
             if (action === "start") {
                 me.state.change(me.state.PLAY);

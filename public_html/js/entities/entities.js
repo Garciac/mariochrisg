@@ -1,5 +1,6 @@
-// TODO
+
 game.PlayerEntity = me.Entity.extend({
+    //settings for "Mario"
     init: function(x, y, settings) {
         this._super(me.Entity, 'init', [x, y, {
                 image: "mario",
@@ -8,7 +9,7 @@ game.PlayerEntity = me.Entity.extend({
                 width: 128,
                 height: 128,
                 getShape: function() {
-                    return (new me.Rect(0, 0, 128, 128)).toPolygon();
+                    return (new me.Rect(0, 0, 26, 128)).toPolygon();
                 }
             }]);
 
@@ -33,18 +34,20 @@ game.PlayerEntity = me.Entity.extend({
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
     },
     update: function(delta) {
-        //checks if the right key is pressed and if it is , executes the following statementn
+        //checks if the right key is pressed and if it is , executes the following statement
         if (me.input.isKeyPressed("right")) {
             //sets the position of mario in the x axis by adding the x value from the setVelocity times the time
             //me.timer tick uses the tii,e since last animation 
             this.body.vel.x += this.body.accel.x * me.timer.tick;
             this.flipX(false);
+        //checks if the left key is pressed and if it is, it executes the following statements
         } else if (me.input.isKeyPressed("left")) {
             this.body.vel.x -= this.body.accel.x * me.timer.tick;
             this.flipX(true);
         } else {
             this.body.vel.x = 0;
         }
+        //checks if the up key is pressed and if it is, it executes the following statements
         if (me.input.isKeyPressed("up")) {
             if (!this.body.jumping && !this.body.falling) {
                 this.body.jumping = true;
@@ -53,7 +56,7 @@ game.PlayerEntity = me.Entity.extend({
         }
         this.body.update(delta);
         me.collision.check(this, true, this.collideHandler.bind(this), true);
-
+               //Animation for "mario"
         if (!this.big) {
             if (this.body.vel.x !== 0) {
                 if (!this.renderable.isCurrentAnimation("smallWalk") && !this.renderable.isCurrentAnimation("grow") && !this.renderable.isCurrentAnimation) {
@@ -77,10 +80,12 @@ game.PlayerEntity = me.Entity.extend({
         this._super(me.Entity, "update", [delta]);
         return true;
     },
+    //response  for characters and collectable
     collideHandler: function(response) {
         var ydif = this.pos.y - response.b.pos.y;
         console.log(ydif);
 
+        //response for bad guy
         if (response.b.type === 'badguy') {
             if (ydif <= -115) {
                 response.b.alive = false;
@@ -95,6 +100,7 @@ game.PlayerEntity = me.Entity.extend({
                     me.state.change(me.state.MENU);
                 }
             }
+            //resonse for mushroom
         } else if (response.b.type === 'mushroom') {
             this.renderable.setCurrentAnimation("grow", "smallIdle");
             this.big = true;
@@ -104,7 +110,7 @@ game.PlayerEntity = me.Entity.extend({
     }
 
 });
-
+//response for door to next level
 game.LevelTrigger = me.Entity.extend({
     init: function(x, y, settings) {
         this._super(me.Entity, 'init', [x, y, settings]);
@@ -121,6 +127,7 @@ game.LevelTrigger = me.Entity.extend({
         me.state.current().resetPlayer(this.xSpawn, this.ySpawn);
     }
 });
+//actions for bad guy
 game.BadGuy = me.Entity.extend({
     init: function(x, y, settings) {
         this._super(me.Entity, 'init', [x, y, {
@@ -155,7 +162,7 @@ game.BadGuy = me.Entity.extend({
     },
     update: function(delta) {
         this.body.update(delta);
-//      me.collision.check(this, true, this.collideHandler.bind(this), true);
+//     me.collision.check(this, true, this.collideHandler.bind(this), true);
 
         if (this.alive) {
             if (this.walkLeft && this.pos.x <= this.startX) {
@@ -175,7 +182,7 @@ game.BadGuy = me.Entity.extend({
     }
 
 });
-
+//Mushrooms settings
 game.Mushroom = me.Entity.extend({
     init: function(x, y, settings) {
         this._super(me.Entity, 'init', [x, y, {

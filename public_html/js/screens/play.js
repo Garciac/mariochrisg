@@ -5,11 +5,12 @@ game.PlayScreen = me.ScreenObject.extend({
     onResetEvent: function() {
         // reset the score
         game.data.score = 0;
-
+       //Level that loads 1st
         me.levelDirector.loadLevel("ChrisLevel01");
 
         this.resetPlayer(0, 400);
-
+        
+        //directions it can go
         me.input.bindKey(me.input.KEY.RIGHT, "right");
         me.input.bindKey(me.input.KEY.LEFT, "left");
         me.input.bindKey(me.input.KEY.UP, "up");
@@ -24,8 +25,10 @@ game.PlayScreen = me.ScreenObject.extend({
         // remove the HUD from the game world
         me.game.world.removeChild(this.HUD);
     },
-    resetPlayer: function(x, y) {
+    
+        resetPlayer: function(x, y) {
         var player = me.pool.pull("mario", x, y, {});
-        me.game.world.addChild(player, 38);
+        me.game.world.addChild(player, 5);
     }
 });
+
