@@ -5,7 +5,7 @@ var game = {
     data: {
         // score
         score: 0
-   },
+    },
     // Run on page load.
     "onload": function() {
         // Initialize the video.
@@ -37,6 +37,8 @@ var game = {
     "loaded": function() {
         me.pool.register("mario", game.PlayerEntity, true);
         me.pool.register("BadGuy", game.BadGuy);
+        me.pool.register("mushroom", game.Mushroom);
+
         me.pool.register("levelTrigger", game.LevelTrigger);
 
         me.state.set(me.state.MENU, new game.TitleScreen());
